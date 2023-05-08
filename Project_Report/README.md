@@ -6,11 +6,17 @@ Project Report
 
 
 DESCRIPTION:
+
+
   The readers-writers problem relates to an object such as a file that is shared between multiple processes. Some of these processes are readers i.e. they only want to read the data from the object and some of the processes are writers i.e. they want to write into the object.
 The readers-writers problem is used to manage synchronization so that there are no problems with the object data. For example - If two readers access the object at the same time there is no problem. But if two writers or a reader and writer access the object at the same time, there may be problems.
 SOLUTION OF A PROBLEM:
      To solve this situation, a writer should get exclusive access to an object i.e. when a writer      is accessing the object, no reader or writer may access it. But multiple readers can access the object at the same time. It can be implemented using semaphores.
+     
+     
 SOURCE CODE:
+
+
 #include<stdio.h>
 #include<pthread.h>
 #include<semaphore.h>
@@ -87,6 +93,9 @@ int main() {
 
     return 0;
 }
+
+
+
 EXPLANATION OF SOURCE CODE:
  
  
@@ -106,22 +115,35 @@ We also initialized two variables
 Readcount: It is also a global variable that keeps the track of readers.
 
 Reader:
+
+
 In this process we started off by putting mutex semaphore into wait. In result mutex which had been initialize to 1 changes its value to 0 now restricting entry of any other reader. It then increments the value of readcount, after which a branch statement checks if this is the first reader entering. In case of the first reader we put wblock semaphore into wait mode. This now restricts entry of writers into the critical section. Now before entering the critical section we put mutex into post so now the value of mutex is back to being 1 that means more readers can now enter simultaneously. Now we enter the critical section where we print which reader is reading what data(x). Once we are out of our critical section we will again put mutex into wait as now we are making the readers exit, we decrement readcount value. When last reader left, we put wblock mutex from wait mode to post. The value of wblock is back to being 1. At the end we put mutex semaphore into post condition.
 Writer:
+
+
 In this we only have to synchronize the writer so we start off by sending wblock into wait so now only one writer can enter and write data(x). Once data is written we prompt then output on our screen and then we will change wblock from wait to post.
 Main:
  In main we initialize thread arrays and semaphores. We run a loop which will create threads resulting in execution of reader writer function thrice. Then we will run another loop which will terminate the threads.
 
 OUTPUT:
 
+
 ![image](https://user-images.githubusercontent.com/123716761/236903802-fff4e759-02a2-4c85-ab1f-118dfbb3c467.png)
 
           
 REAL TIME EXAPMLE:
+
+
 A practical example of a Readers and Writers problem is an airline reservation system consisting of a huge data base with many processes that read and write the data. Reading information from the data base will not cause a problem since no data is changed. The problem lies in writing information to the data base.
 
 REFRENCES:
+
+
 From wikipedia:
+
+
 https://en.m.wikipedia.org/wiki/Readers%E2%80%93writers_problem
+
+
 https://en.m.wikipedia.org/wiki/Semaphore_(programming)
 
